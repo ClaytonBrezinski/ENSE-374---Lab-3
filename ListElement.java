@@ -42,7 +42,10 @@ public class ListElement
     {
         this.data = inData;
     }
-    
+    public void setNext(ListElement pointTo)
+    {
+        this.next = pointTo;
+    }
     /*
     Purpose: return the data variable of the ListElement
     Arguements: none
@@ -68,6 +71,7 @@ public class ListElement
             currentElement = currentElement.previous;
         }
         currentElement.previous = le;
+        le.setNext(currentElement);
     }
     /*
     Purpose: Get the element at the given index
@@ -88,7 +92,6 @@ public class ListElement
                 {
                     currentElement = currentElement.previous;
                 }
- 
         }
         return currentElement;
     }
@@ -115,8 +118,8 @@ public class ListElement
             // if it has other nodes present
             else if (currentElement.previous != null)
             {
-                ListElement toDelete = this;
                 currentElement = currentElement.previous;
+                currentElement.setNext(null);
             }
             System.gc();
             return currentElement;
@@ -126,12 +129,14 @@ public class ListElement
             //go to element being deleted: 
             ListElement currentElement = getElement(index - 1);
             ListElement elementBefore = currentElement;
-            
             currentElement = currentElement.previous;
+            
             elementBefore.previous = currentElement.previous;
+            ListElement elementAfter = currentElement.previous;
+            elementAfter.next = elementBefore;
             currentElement = null;
             System.gc();
-            return this;
+            return this;          
         }  
     }
     
@@ -151,4 +156,26 @@ public class ListElement
         System.out.println("\n");
         // simple print using "previous" pointer. loop until "previous" = null
     }
-}
+    /*
+    Purpose: to print the linked list from the tail to the head
+    Arguements: none
+    */
+    public void printLinkedListFromTail()
+    {
+        ListElement currentElement = this;
+        while (currentElement.previous != null)
+        {
+            currentElement = currentElement.previous;
+        }
+        
+        while (currentElement.next != null)
+        {
+            System.out.print(currentElement.data + " ");
+            currentElement = currentElement.next;
+        }
+        System.out.print(this.data);
+        System.out.println("\n");
+    }
+    
+}        
+

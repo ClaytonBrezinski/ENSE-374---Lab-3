@@ -36,7 +36,8 @@ public class Ense374Lab3
             System.out.println("A: add a node to the linked list");
             System.out.println("B: delete a node from the linked list");
             System.out.println("C: view a node from the linked list");
-            System.out.println("D: print the current linked list structure");
+            System.out.println("D: print the current linked list structure head to tail");
+            System.out.println("E: print the current linked list structure tail to head");
             System.out.println("X: exit");
             userInput = input.next(".").charAt(0);
             if (userInput == 'A' || userInput == 'a')
@@ -74,6 +75,10 @@ public class Ense374Lab3
             else if (userInput == 'D' || userInput == 'd')
             {
                 head.printLinkedListFromHead();
+            }
+            else if (userInput == 'E' || userInput == 'e')
+            {
+                head.printLinkedListFromTail();
             }
             else if (userInput == 'X' || userInput == 'x')
             {
@@ -114,3 +119,6 @@ public class Ense374Lab3
             
     
 }
+
+
+
