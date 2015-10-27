@@ -1,19 +1,13 @@
 /**
 AUTHOR: Clayton Brezinski 200220989
 FILENAME: ListElement.java
-DESCRIPTION: 
+DESCRIPTION: class file for the listElement variables used in lab 3
 */
 package ense374.lab.pkg3;
 import java.util.Arrays;
-/**
- *
- * 
- */
+import java.util.InputMismatchException;
 
-/*
-    Purpose:
-    Arguements:
-*/
+
 public class ListElement
 {
     private ListElement next;
@@ -30,6 +24,10 @@ public class ListElement
         this.next = null;
         this.previous = null;
     }
+    /*
+    Purpose: Overloaded constructor for a ListElement
+    Arguements: int - data value you wish to set this new list element as
+    */
     public ListElement(int inData)
     {
         this.data = inData;
@@ -55,11 +53,16 @@ public class ListElement
     }
     /*
     Purpose: add a ListElement to the linked list
-    Arguements:
+    Arguements: ListElement - the list element that you wish to add to the list
     */
     public void addElement(ListElement le)
     {
         ListElement currentElement = this;
+        // if the head is not present, create one
+        if (this == null)
+        {
+            setData(le.data);
+        }
         while (currentElement.previous != null)
         {
             currentElement = currentElement.previous;
@@ -67,40 +70,74 @@ public class ListElement
         currentElement.previous = le;
     }
     /*
-    Purpose:
-    Arguements:
+    Purpose: Get the element at the given index
+    Arguements: int - index of the object we wish to find. 
     */
     public ListElement getElement(int index)
     {
         
-        //this may have to have the head handed to it and set currentElement = to it.
         ListElement currentElement = this;
         for (int i = 0; i < index; i++)
         {
-            currentElement = this.previous;
+                if (currentElement.previous == null && (i - index != 0))
+                {
+                    System.out.println("this node does not exist so we will return the closest node");
+                    break;
+                }
+                else
+                {
+                    currentElement = currentElement.previous;
+                }
+ 
         }
         return currentElement;
     }
     
     /*
-    Purpose:
-    Arguements:
+    Purpose: Delete the node at the given index
+    Arguements: int - index of the node wished to be deleted. 
     */
-    public void deleteElement(int index)
+    public ListElement deleteElement(int index)
     {
-        ListElement currentElement = getElement(index - 1);
-        ListElement elementBefore = currentElement;
-        //go to element being deleted: 
-        currentElement = currentElement.previous;
-        elementBefore.previous = currentElement.previous;
-        currentElement = null;
-        System.gc();
-        
+        // need to take into account if the head is deleted
+        if (index == 0)
+        {
+            // if its only the head present
+            ListElement currentElement = getElement(0);
+            if (currentElement == null)
+            {
+                // do nothing, no head present. 
+            }
+            else if (currentElement.previous == null)
+            {
+                currentElement = null;
+            }
+            // if it has other nodes present
+            else if (currentElement.previous != null)
+            {
+                ListElement toDelete = this;
+                currentElement = currentElement.previous;
+            }
+            System.gc();
+            return currentElement;
+        }
+        else
+        {
+            //go to element being deleted: 
+            ListElement currentElement = getElement(index - 1);
+            ListElement elementBefore = currentElement;
+            
+            currentElement = currentElement.previous;
+            elementBefore.previous = currentElement.previous;
+            currentElement = null;
+            System.gc();
+            return this;
+        }  
     }
     
     /*
-    Purpose:
-    Arguements:
+    Purpose: to print the linked list from the head to the tail
+    Arguements: none
     */
     public void printLinkedListFromHead()
     {
